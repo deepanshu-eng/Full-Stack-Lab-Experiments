@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Banking Interface</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+        padding: 40px;
+    }
+
+    .bank {
+        max-width: 500px;
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-size: 20px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        border-radius: 8px;
+        border: 2px solid #cfd6dd;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    button {
+        flex: 1;
+        padding: 18px;
+        font-size: 26px;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .deposit {
+        background: linear-gradient(135deg, #2f7cff, #0047ff);
+    }
+
+    .withdraw {
+        background: linear-gradient(135deg, #ff4b4b, #e60000);
+    }
+
+    .error {
+        color: red;
+        font-size: 28px;
+        margin-top: 30px;
+        display: none;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 38px;
+        }
+        button {
+            font-size: 22px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="bank">
+    <h1>Balance: $<span id="balance">1000</span></h1>
+
+    <label>Amount</label>
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <div class="buttons">
+        <button class="deposit" onclick="deposit()">Deposit</button>
+        <button class="withdraw" onclick="withdraw()">Withdraw</button>
+    </div>
+
+    <div class="error" id="error">Invalid amount!</div>
+</div>
+
+<script>
+    let balance = 1000;
+
+    function showError(show) {
+        document.getElementById("error").style.display = show ? "block" : "none";
+    }
+
+    function getAmount() {
+        return Number(document.getElementById("amount").value);
+    }
+
+    function updateBalance() {
+        document.getElementById("balance").textContent = balance;
+    }
+
+    function deposit() {
+        const amt = getAmount();
+
+        if (amt <= 0 || isNaN(amt)) {
+            showError(true);
+            return;
+        }
+
+        balance += amt;
+        updateBalance();
+        showError(false);
+        document.getElementById("amount").value = "";
+    }
+
+    function withdraw() {
+        const amt = getAmount();
+
+        if (amt <= 0 || isNaN(amt) || amt > balance) {
+            showError(true);
+            return;
+        }
+
+        balance -= amt;
+        updateBalance();
+        showError(false);
+        document.getElementById("amount").value = "";
+    }
+</script>
+
+</body>
+</html>
